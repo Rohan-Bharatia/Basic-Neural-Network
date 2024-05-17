@@ -30,7 +30,6 @@
 #define NEURAL_NETWORK_HPP
 
 // std
-#include <cstdlib>
 #include <vector>
 #include <cmath>
 
@@ -54,12 +53,14 @@ public:
 
     Nueral_Network(std::vector<uint32_t> topology, float learning_rate = 1.0f)
                    : topology(topology), weight_matricies({}), value_matricies({}),
-                   bias_matricies({}), learning_rate(learning_rate) {}
-    
+                   bias_matricies({}), learning_rate(learning_rate)
+    {}
+
     bool feed_forward(std::vector<float> input);
     bool back_propegate(std::vector<float> output_target);
 
-    std:vector<float> get_predictions();
+    std:vector<float> get_predictions()
+    { return value_matricies.back().values; }
 };
 
 
