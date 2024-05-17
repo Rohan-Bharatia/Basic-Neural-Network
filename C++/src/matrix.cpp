@@ -202,7 +202,7 @@ Matrix Matrix::divide(float &scalar);
 
 Matrix Matrix::flip_signs()
 {
-    Matrix target(other.cols, other.rows);
+    Matrix target(cols, rows);
 
     for(uint32_t x = 0; x < target.cols; x++)
     {
@@ -215,7 +215,7 @@ Matrix Matrix::flip_signs()
 
 Matrix Matrix::transpose()
 {
-    Matrix target(other.cols, other.rows);
+    Matrix target(cols, rows);
 
     for(uint32_t x = 0; x < cols; x++)
     {
@@ -285,7 +285,7 @@ Matrix Matrix::adjoint()
 {
     assert(rows == cols);
 
-    Matrix target(other.cols, other.rows);
+    Matrix target(cols, rows);
     uint32_t sign = 1;
 
     for(uint32_t x = 0; x < cols; x++)

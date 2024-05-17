@@ -26,43 +26,48 @@
 
 #pragma once
 
-#ifndef NEURAL_NETWORK_HPP
-#define NEURAL_NETWORK_HPP
+#ifndef EXAMPLE_CPP
+#define EXAMPLE_CPP
 
 // std
+#include <iostream>
 #include <vector>
-#include <cmath>
+#include <cstdio>
 
-#include "matrix.hpp"
+#include "C++/include/neural-network.hpp"
 
-inline float sigmoid(float x)
-{ return 1 / (1 + std::exp(-x)); }
-
-inline float derivative_sigmoid(float x)
-{ return (x * (1 - x)); }
-
-class Nueral_Network
+int main(int argc, char *argv[])
 {
-public:
-    std::vector<uint32_t> topology;
-    std::vector<Matrix<float>> weight_matricies;
-    std::vector<Matrix<float>> value_matricies;
-    std::vector<Matrix<float>> bias_matricies;
-    float learning_rate;
+    std::vector<uint32_t> topology = {2, 3, 1};
+    Nueral_Network nn(topology, 0.1);
+    std::vector<std::vector<float>> inputs =
+    { {0.0f, 0.0f}, {1.0f, 1.0f}, {1.0f, 0.0f}, {0.0f, 1.0f} };
+    std::vector<std::vector<float>> outputs =
+    { {0.0f}, {0.0f}, {1.0f}, {1.0f} };
+    uint32_t epoch = 100000;
 
+    std::cout << "Training Started!" << std::endl;
 
-    Nueral_Network(std::vector<uint32_t> topology, float learning_rate = 1.0f)
-                   : topology(topology), weight_matricies({}), value_matricies({}),
-                   bias_matricies({}), learning_rate(learning_rate)
-    {}
+    for(uint32_t i = 0; i < epoch; i++)
+    {
+        uint32_t idx = std::rand() % 4;
 
-    bool feed_forward(std::vector<float> input);
-    bool back_propegate(std::vector<float> output_target);
+        nn.feed_forward(inputs[idx]);
+        nn.back_propegate(outputs[idx]);
+    }
 
-    std:vector<float> get_predictions()
-    { return value_matricies.back().values; }
-};
+    std::cout << "Training Complete!" << std::endl;
 
+    for(std::vector<float> input : inputs)
+    {
+        nn.feed_forward(input);
 
+        std::vector<float> predictions = nn.get_predictions();
+
+        std::cout << "Prediction: " << input[0] << ", " << input[1] << " => " << predictions[0] << std::endl;
+    }
+
+    return 0;
+}
 
 #endif
